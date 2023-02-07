@@ -23,7 +23,6 @@ async function invokeAction({ action, id, name, email, phone }) {
       const contacts = await listContacts();
       console.table(contacts);
       return contacts;
-      break;
 
     case "get":
       const contact = await getContactById(id);
@@ -31,17 +30,17 @@ async function invokeAction({ action, id, name, email, phone }) {
         throw new Error(`Contact with id=${id} not found`);
       }
       return contact;
-      break;
 
     case "add":
       const updateListContact = addContact(name, email, phone);
       return updateListContact;
-      break;
 
     case "remove":
       const deletedContact = await removeContact(id);
+      if (!deletedContact) {
+        throw new Error(`Contact with id=${id} not found`);
+      }
       return deletedContact;
-      break;
 
     default:
       console.warn("\x1B[31m Unknown action type!");

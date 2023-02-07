@@ -24,9 +24,12 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
   const contacts = await listContacts();
+  const deletedContact = contacts[contactId];
+  if (!deletedContact) {
+    return null;
+  }
   const result = await contacts.filter((contact) => contact.id !== contactId);
   await updateContacts(result);
-  const deletedContact = contacts[contactId];
   return deletedContact;
 }
 
